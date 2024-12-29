@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/Dashboard-Style.css') }}">
+		<title>
+			Dashboard
+		</title>
+	</head>
+	<body data-user-role="{{ role }}">
+		<div class="dashboard-container">
+			<!-- Left Sidebar -->
+			<div class="sidebar">
+				<div class="sidebar-top">
+					<!-- Logo Image -->
+					<div class="sidebar-header">
+						<div class="logo-wrapper">
+							<img src="{{ url_for('static', filename='css/Login-Logo.png') }}" alt="Logo"
+							class="logo">
+						</div>
+						<p>
+							Welcome, {{ session['full_name'] }}
+						</p>
+					</div>
+					<ul>
+						<!-- Student Tabs -->
+						{% if role == 'student' %}
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-home')">
+								<i class="fas fa-home">
+								</i>
+								Home
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-study-groups')">
+								<i class="fas fa-users">
+								</i>
+								Study Groups
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-workshops')">
+								<i class="fas fa-chalkboard-teacher">
+								</i>
+								Workshops
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-messages')">
+								<i class="fas fa-envelope">
+								</i>
+								Messages
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-social-media')">
+								<i class="fas fa-share-alt">
+								</i>
+								Social Media
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-quizzes')">
+								<i class="fas fa-question-circle">
+								</i>
+								Quizzes
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-mentoring')">
+								<i class="fas fa-user-graduate">
+								</i>
+								Mentoring
+							</a>
+						</li>
+						<!-- Updated -->
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('student-resources')">
+								<i class="fas fa-book">
+								</i>
+								Resources
+							</a>
+						</li>
+						{% endif %}
+						<!-- Instructor Tabs -->
+						{% if role == 'instructor' %}
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-home')">
+								<i class="fas fa-home">
+								</i>
+								Home
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-study-groups')">
+								<i class="fas fa-users">
+								</i>
+								Study Groups
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-workshops')">
+								<i class="fas fa-chalkboard-teacher">
+								</i>
+								Workshops
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-messages')">
+								<i class="fas fa-envelope">
+								</i>
+								Messages
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-quizzes')">
+								<i class="fas fa-question-circle">
+								</i>
+								Quizzes
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-mentoring')">
+								<i class="fas fa-user-graduate">
+								</i>
+								Mentoring
+							</a>
+						</li>
+						<!-- Updated -->
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('instructor-resources')">
+								<i class="fas fa-book">
+								</i>
+								Resources
+							</a>
+						</li>
+						{% endif %}
+						<!-- Admin Tabs -->
+						{% if role == 'admin' %}
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-home')">
+								<i class="fas fa-home">
+								</i>
+								Home
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-users')">
+								<i class="fas fa-users">
+								</i>
+								Manage Users
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-activities')">
+								<i class="fas fa-tasks">
+								</i>
+								Manage Activities
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-announcements')">
+								<i class="fas fa-bullhorn">
+								</i>
+								Announcements
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-messages')">
+								<i class="fas fa-envelope">
+								</i>
+								Messages
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0)" class="tab-link" onclick="showTab('admin-resources')">
+								<i class="fas fa-book">
+								</i>
+								Resources
+							</a>
+						</li>
+						{% endif %}
+					</ul>
+					<!-- Logout Button -->
+					<a href="/logout" class="logout-btn">
+						<i class="fas fa-sign-out-alt">
+						</i>
+						Logout
+					</a>
+				</div>
+			</div>
+			<!-- Main Content Area -->
+			<div class="main-content">
+				<div class="tabs-container">
+					<!-- Dynamic Content -->
+					<div id="student-home" class="tab-content active">
+						<h2>
+							Welcome to the Student Dashboard
+						</h2>
+					</div>
+					<div id="student-study-groups" class="tab-content">
+						<h2>
+							Study Groups
+						</h2>
+						<!-- Available Groups Section -->
+						<div class="available-groups">
+							<h3>
+								Available Groups
+							</h3>
+							{% if available_groups %} {% for group in available_groups %}
+							<div class="group-item">
+								<span>
+									{{ group.group_name }}
+								</span>
+								<p>
+									{{ group.description }}
+								</p>
+								<form action="{{ url_for('join_group') }}" method="POST">
+									<input type="hidden" name="group_id" value="{{ group.group_id }}">
+									<button type="submit">
+										Join
+									</button>
+								</form>
+							</div>
+							{% endfor %} {% else %}
+							<p>
+								No available groups found.
+							</p>
+							{% endif %}
+						</div>
+						<!-- Joined Groups Section -->
+						<div class="joined-groups">
+							<h3>
+								My Groups
+							</h3>
+							{% if joined_groups %} {% for group in joined_groups %}
+							<div class="group-item">
+								<span>
+									{{ group.group_name }}
+								</span>
+								<p>
+									{{ group.description }}
+								</p>
+								<a href="{{ url_for('view_group', group_id=group.group_id) }}">
+									<button type="button">
+										View
+									</button>
+								</a>
+							</div>
+							{% endfor %} {% else %}
+							<p>
+								You haven't joined any groups yet.
+							</p>
+							{% endif %}
+						</div>
+						<!-- Add New Group Section -->
+						<div class="add-group">
+							<h3>
+								Create New Study Group
+							</h3>
+							<form action="{{ url_for('create_group') }}" method="POST">
+								<div>
+									<label for="group_name">
+										Group Name:
+									</label>
+									<input type="text" id="group_name" name="group_name" required>
+								</div>
+								<div>
+									<label for="description">
+										Description:
+									</label>
+									<textarea id="description" name="description" required>
+									</textarea>
+								</div>
+								<button type="submit">
+									Create Group
+								</button>
+							</form>
+						</div>
+					</div>
+					<div id="student-workshops" class="tab-content hidden">
+						<h2>
+							Workshops
+						</h2>
+						<div class="content-card">
+							<p>
+								Discover upcoming workshops to enhance your skills.
+							</p>
+							<!-- Table structure for displaying workshops -->
+							<table class="workshop-table">
+								<thead>
+									<tr>
+										<th>
+											Subject
+										</th>
+										<th>
+											Time
+										</th>
+										<th>
+											Zoom Link
+										</th>
+										<th>
+											Description
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<!-- Loop through workshops to display each one -->
+									{% for workshop in workshops %}
+									<tr>
+										<!-- Display workshop subject -->
+										<td>
+											{{ workshop.workshop_name }}
+										</td>
+										<!-- Display workshop time -->
+										<td>
+											{{ workshop.start_time }}
+										</td>
+										<!-- Display Zoom link -->
+										<td>
+											{% if workshop.zoom_link %}
+											<a href="{{ workshop.zoom_link }}" target="_blank">
+												Join
+											</a>
+											{% else %} Not available {% endif %}
+										</td>
+										<!-- Display workshop description -->
+										<td>
+											{{ workshop.workshop_description }}
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="student-messages" class="tab-content hidden">
+						<h2>
+							Messages
+						</h2>
+						<div class="chat-container">
+							<!-- User List -->
+							<div class="user-list">
+								<h3>
+									Users
+								</h3>
+								<ul id="user-list">
+								</ul>
+							</div>
+							<!-- Chat Box -->
+							<div class="chat-box">
+								<div id="chat-history" class="chat-history">
+								</div>
+								<div class="chat-input-container">
+									<textarea id="chat-input" class="chat-input" placeholder="Type a message...">
+									</textarea>
+									<button id="chat-send" class="chat-send">
+										Send
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="student-social-media" class="tab-content hidden">
+						<h2>
+							Social Media
+						</h2>
+						<div class="content-card">
+							<div class="social-media-list">
+								<!-- Facebook Groups -->
+								<h3>
+									<i class="fab fa-facebook">
+									</i>
+									Facebook Groups
+								</h3>
+								<ul>
+									{% for group in social_groups %} {% if group.platform == 'facebook' %}
+									<li>
+										<strong>
+											{{ group.course_name }}
+										</strong>
+										<a href="{{ group.group_link }}" target="_blank" class="join-button">
+											Join Group
+											<i class="fas fa-external-link-alt">
+											</i>
+										</a>
+									</li>
+									{% endif %} {% endfor %}
+								</ul>
+								<!-- LinkedIn Groups -->
+								<h3>
+									<i class="fab fa-linkedin">
+									</i>
+									LinkedIn Groups
+								</h3>
+								<ul>
+									{% for group in social_groups %} {% if group.platform == 'linkedin' %}
+									<li>
+										<strong>
+											{{ group.course_name }}
+										</strong>
+										<a href="{{ group.group_link }}" target="_blank" class="join-button">
+											Join Group
+											<i class="fas fa-external-link-alt">
+											</i>
+										</a>
+									</li>
+									{% endif %} {% endfor %}
+								</ul>
+							</div>
+						</div>
+						<!-- Add New Group Section -->
+						<div class="add-new-group">
+							<h3>
+								Add New Group
+							</h3>
+							<form method="POST" action="/add_group">
+								<div class="form-group">
+									<label for="course_name">
+										Group Name
+									</label>
+									<input type="text" id="course_name" name="course_name" required />
+								</div>
+								<div class="form-group">
+									<label for="platform">
+										Platform
+									</label>
+									<select id="platform" name="platform" required>
+										<option value="facebook">
+											Facebook
+										</option>
+										<option value="linkedin">
+											LinkedIn
+										</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="group_link">
+										Group Link
+									</label>
+									<input type="url" id="group_link" name="group_link" required />
+								</div>
+								<button type="submit" class="add-group-button">
+									Add Group
+								</button>
+							</form>
+						</div>
+					</div>
+					<div id="student-quizzes" class="tab-content hidden">
+						<h2>
+							Quizzes
+						</h2>
+						<h2>
+							Create and Store Your Kahoot Quizzes
+						</h2>
+						<p>
+							Click the button below to create a new Kahoot quiz:
+						</p>
+						<!-- Button to redirect to Kahoot -->
+						<button onclick="createQuiz()">
+							Create Quiz on Kahoot
+						</button>
+						<h3>
+							Once your quiz is ready, copy the shareable link and paste it below:
+						</h3>
+						<!-- Input for pasting the Kahoot quiz link -->
+						<form id="quizForm" onsubmit="addQuiz(event)">
+							<label for="kahootLink">
+								Paste your Kahoot quiz link here:
+							</label>
+							<br>
+							<input type="text" id="kahootLink" name="kahootLink" placeholder="Enter Kahoot quiz link"
+							required>
+							<br>
+							<br>
+							<button type="submit">
+								Add Quiz
+							</button>
+						</form>
+						<h3>
+							List of Created Quizzes:
+						</h3>
+						<ul id="quizList">
+						</ul>
+					</div>
+					<div id="student-mentoring" class="tab-content hidden">
+						<h2>
+							Mentoring
+						</h2>
+						<div class="content-card">
+							<p>
+								Connect with your mentors and track your progress here.
+							</p>
+							<!-- Mentoring content goes here -->
+						</div>
+					</div>
+					<div id="student-resources" class="tab-content hidden">
+						<h2>
+							Resources
+						</h2>
+						<div class="content-card">
+							<p>
+								Access additional resources for your studies.
+							</p>
+						</div>
+					</div>
+					<div id="admin-home" class="tab-content active">
+						<h2>
+							Welcome to the Admin Dashboard
+						</h2>
+						<div class="content-card">
+							<p>
+								Manage the platform settings and user activities here.
+							</p>
+						</div>
+					</div>
+					<div id="admin-users" class="tab-content hidden">
+						<h2>
+							Manage Users
+						</h2>
+						<div class="content-card">
+							<p>
+								Add, remove, or update users (students, instructors, and admins).
+							</p>
+						</div>
+					</div>
+					<div id="admin-activities" class="tab-content hidden">
+						<h2>
+							Manage Activities
+						</h2>
+						<div class="content-card">
+							<p>
+								Create, edit, or remove activities on the platform.
+							</p>
+						</div>
+					</div>
+					<div id="admin-announcements" class="tab-content hidden">
+						<h2>
+							Announcements
+						</h2>
+						<div class="content-card">
+							<p>
+								Create and share announcements with all platform users.
+							</p>
+						</div>
+					</div>
+					<div id="admin-messages" class="tab-content hidden">
+						<h2>
+							Messages
+						</h2>
+						<div class="content-card">
+							<p>
+								Check and send messages to users on the platform.
+							</p>
+						</div>
+					</div>
+					<div id="admin-resources" class="tab-content hidden">
+						<h2>
+							Resources
+						</h2>
+						<div class="content-card">
+							<p>
+								Access and manage additional platform resources.
+							</p>
+						</div>
+					</div>
+					<div id="instructor-home" class="tab-content active">
+						<h2>
+							Welcome to the Instructor Dashboard
+						</h2>
+						<div class="content-card">
+							<p>
+								Manage your activities and interact with students here.
+							</p>
+						</div>
+					</div>
+					<div id="instructor-study-groups" class="tab-content hidden">
+						<h2>
+							Study Groups
+						</h2>
+					</div>
+					<div id="instructor-workshops" class="tab-content hidden">
+						<h2>
+							Workshops
+						</h2>
+						<div class="content-card">
+							<p>
+								Organize and manage workshops for your students.
+							</p>
+						</div>
+					</div>
+					<div id="instructor-messages" class="tab-content hidden">
+						<h2>
+							Messages
+						</h2>
+						<div class="content-card">
+							<p>
+								Check and send messages to students and instructors.
+							</p>
+						</div>
+					</div>
+					<div id="instructor-quizzes" class="tab-content hidden">
+						<h2>
+							Quizzes
+						</h2>
+						<div class="content-card">
+							<p>
+								Manage quizzes and view student progress here.
+							</p>
+						</div>
+					</div>
+					<div id="instructor-mentoring" class="tab-content hidden">
+						<h2>
+							Mentoring
+						</h2>
+						<div class="content-card">
+							<p>
+								Manage your mentees and offer guidance here.
+							</p>
+							<!-- Mentoring content goes here -->
+						</div>
+					</div>
+					<div id="instructor-resources" class="tab-content hidden">
+						<h2>
+							Resources
+						</h2>
+						<div class="content-card">
+							<p>
+								Access and share additional resources with your students.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Right Sidebar -->
+			<div class="right-sidebar">
+				<div class="notifications">
+					<h3>
+						Notifications
+					</h3>
+					<div class="notification-card">
+						<h4>
+							Assignment Due
+						</h4>
+						<p>
+							Mathematics homework due in 2 days
+						</p>
+					</div>
+					<div class="notification-card">
+						<h4>
+							New Message
+						</h4>
+						<p>
+							You have a new message from your instructor
+						</p>
+					</div>
+				</div>
+				<div class="events">
+					<h3>
+						Upcoming Events
+					</h3>
+					<div class="event-card">
+						<h4>
+							Physics Quiz
+						</h4>
+						<p>
+							Thursday, 10:00 AM
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="{{ url_for('static', filename='js/Dashboard-Script.js') }}">
+		</script>
+	</body>
+
+</html>

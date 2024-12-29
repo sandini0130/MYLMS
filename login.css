@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: url('../images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.logo img {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-form {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 20px;
+  width: 350px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.logo img {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: #f26522;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.login-btn {
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #555;
+}
+
+.register {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.register a {
+  color: #f26522;
+  text-decoration: none;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
